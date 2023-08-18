@@ -79,3 +79,50 @@ rl.on('close', () => {
 
   rl.close();
 });
+
+//! 다른 코드
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on('line', (line) => {
+  input.push(line.trim());
+  if (input.length === 2) rl.close();
+});
+
+function is_Equal(array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+  for (let i = 0; i < array1.length; i++) {
+    if (array1[i] !== array2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+rl.on('close', () => {
+  let arr = input[1].split(' ').map(Number);
+  let chk = arr.indexOf(Math.max(...arr));
+  let left = arr.slice(0, chk);
+  let right = arr.slice(chk);
+
+  left.sort((a, b) => a - b);
+  right.sort((a, b) => b - a);
+
+  let sortedArr = [...left, ...right];
+
+  if (is_Equal(sortedArr, arr)) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+      sum += arr[i];
+    }
+    console.log(sum);
+  } else console.log(0);
+
+  process.exit();
+});
