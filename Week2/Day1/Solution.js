@@ -10,7 +10,7 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', () => {
-  // 3개의 부분 문자열을 만들어서 []에 push하고, 해당 배열을 arr에 push
+  // 3개의 부분 문자열을 만들어서 []에 push
   function getAllSubstrings(input) {
     const substrings = [];
 
