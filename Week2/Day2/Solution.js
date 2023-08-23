@@ -71,11 +71,11 @@ rl.on('close', () => {
     matrix.push(input[i].split(' ').map(Number));
   }
 
-  // matrix[i][j] 값이 0이라면 주변의 1의 개수를 탐색
   for (let x = 0; x < N; x++) {
     for (let y = 0; y < N; y++) {
       // 주변의 구름 개수를 셀 goormCount
       let goormCount = 0;
+      // matrix[x][y] 값이 0이라면 주변의 1의 개수를 탐색
       if (matrix[x][y] === 0) {
         // 8방향 dx/dy 기법
         for (let i = 0; i < 8; i++) {
