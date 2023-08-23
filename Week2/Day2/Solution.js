@@ -42,3 +42,55 @@ rl.on('close', () => {
   console.log(countList.filter((el) => el === K).length);
   rl.close();
 });
+
+//! 다른 코드
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let dx = [0, 0, 1, 1, 1, -1, -1, -1];
+let dy = [1, -1, 1, 0, -1, 1, 0, -1];
+let input = [];
+let matrix = [];
+let N, M;
+let answer = 0;
+
+rl.on('line', (line) => {
+  input.push(line.trim());
+  if (input.length === N + 1) {
+    rl.close();
+  }
+});
+
+rl.on('close', () => {
+  [N, M] = input[0].split(' ').map(Number);
+
+  for (let i = 1; i <= N; i++) {
+    matrix.push(input[i].split(' ').map(Number));
+  }
+
+  // matrix[i][j] 값이 0이라면 주변의 1의 개수를 탐색
+  for (let x = 0; x < N; x++) {
+    for (let y = 0; y < N; y++) {
+      // 주변의 구름 개수를 셀 goormCount
+      let goormCount = 0;
+      if (matrix[x][y] === 0) {
+        // 8방향 dx/dy 기법
+        for (let i = 0; i < 8; i++) {
+          let nx = x + dx[i];
+          let ny = y + dy[i];
+          // 범위 오류를 검토
+          if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
+            // 탐색할 값이 1이라면, goormCount + 1
+            if (matrix[nx][ny] === 1) goormCount++;
+          }
+        }
+        // 만약에 주변의 구름의 개수가 K개라면 answer + 1
+        if (goormCount === M) answer++;
+      }
+    }
+  }
+  console.log(answer);
+});
