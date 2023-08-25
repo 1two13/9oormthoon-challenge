@@ -1,3 +1,4 @@
+//* 그리디 알고리즘
 const readline = require('readline');
 
 (async () => {
@@ -26,3 +27,28 @@ const readline = require('readline');
 
   process.exit();
 })();
+
+//! 다른 코드
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input;
+rl.on('line', (line) => {
+  input = Number(line);
+});
+
+rl.on('close', () => {
+  let N = input;
+  let ans = 0;
+
+  for (let i of [14, 7, 1]) {
+    ans += Math.floor(N / i);
+    N %= i;
+  }
+
+  console.log(ans);
+  process.exit();
+});
