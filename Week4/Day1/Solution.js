@@ -1,3 +1,60 @@
+//! 재도전 코드
+const readline = require('readline');
+let rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+
+rl.on('line', (line) => {
+  input.push(line);
+});
+
+rl.on('close', () => {
+  const [N, M] = input[0].split(' ').map(Number);
+  const toFromArr = input.slice(1).map((el) => el.split(' ').map(Number));
+  let check = Array.from(Array(N + 1), () => Array(N + 1).fill(false)); // 간선 여부를 나타내는 배열
+  let visited = Array(N + 1).fill(0); // 방문 여부 확인하는 배열
+  let obj = {};
+  let count = 1;
+
+  for (let i = 0; i < toFromArr.length; i++) {
+    const [to, from] = toFromArr[i];
+
+    if (!obj[to]) obj[to] = [];
+    obj[to].push(from);
+    check[to][from] = true;
+  }
+
+  for (let i = 1; i <= N; i++) {
+    // 아직 방문하지 않았고,
+    if (visited[i] === 0) {
+      let q = [i];
+      // 큐에 값이 없을 때까지 반복
+      while (q.length > 0) {
+        const currentNode = q.shift();
+        // 방문했음을 표시
+        visited[currentNode] = count;
+        //* || [] 왜 하는거지? => 하지 않으면 runtime 에러 발생
+        for (const nextNode of obj[currentNode] || []) {
+          // 양방향 간선인지 확인 && 방문여부 확인
+          if (check[nextNode][currentNode] && visited[nextNode] === 0) {
+            // 조건에 만족한다면 다음 탐색 후보에 추가
+            q.push(nextNode);
+          }
+        }
+      }
+      // 모든 연결된 노드 방문 후, 하나의 컴포넌트 완성되었으므로 count++
+      count++;
+    }
+  }
+
+  console.log(count - 1);
+
+  rl.close();
+});
+
 //! 다른 코드
 //* BFS(모든 섬 방문해야하기 때문)
 
